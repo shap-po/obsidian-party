@@ -1,73 +1,57 @@
-# Obsidian Sample Plugin
+<h1 align="center">
+    <img src="https://raw.githubusercontent.com/yiliansource/party-js/main/.github/banner.svg"/>
+</h1>
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+<p align="center">
+    <a href="#installation">Installation</a> &bull;
+    <a href="#usage">Usage</a> &bull;
+    <a href="https://party.js.org/docs">Documentation</a>
+</p>
 
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
+# Obsidian Party
+An implementation of the [party.js](https://party.js.org/) library for the [Obsidian](https://obsidian.md).
 
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
+# Features
++ Create confetti and sparkles effects
++ What else do you want?
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Changes the default font color to red using `styles.css`.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+# Installation
+Search for the "Obsidian Party" in the Obsidian plugin list.
+## Manual Installation
+1. Go to [Releases](https://github.com/shap-po/obsidian-party/releases) and download the latest release
+2. Enable plugins in the Obsidian settings
+3. Extract the contents of the zip file to obsidian plugins folder
+4. You should have a folder named "obsidian-party", containing "main.js" and "manifest.json" files
+5. Restart Obsidian and enable the plugin in the plugin list
 
-## First time developing plugins?
+# Usage
+Either add a "confetti" or "sparkles" class for an element, or make use of all features of  the [party module](https://party.js.org/docs)!
 
-Quick starting guide for new plugin devs:
+# Examples
+## Simple confetti button
+```html
+<button class="confetti">Click me!</button>
+```
+## DataView JS support 
+````
+```dataviewjs
+const buttonMaker = (text) => {
+    const btn = this.container.createEl('button', {"text": text});
+    btn.addEventListener('click', async (evt) => {
+      evt.preventDefault();
+	    party.confetti(btn); // <---- creating confetti
+	    party.sparkles(btn); // <---- creating sparkles
+    });
+    return btn;
+}
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
-
-## Releasing new releases
-
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
-
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
-
-## Adding your plugin to the community plugin list
-
-- Check https://github.com/obsidianmd/obsidian-releases/blob/master/plugin-review.md
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
-
-## How to use
-
-- Clone this repo.
-- `npm i` or `yarn` to install dependencies
-- `npm run dev` to start compilation in watch mode.
-
-## Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
-
-
-## API Documentation
-
-See https://github.com/obsidianmd/obsidian-api
+dv.table(["File", "Button"],
+	dv.pages('"Dataview"')
+    .map(t => [
+      t.file.link,
+      buttonMaker("Let's start the party!")
+    ]
+  )
+)
+```
+````
