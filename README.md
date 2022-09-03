@@ -29,7 +29,8 @@ Search for the "Obsidian Party" in the Obsidian plugin list.
 3. `npm run dev` to build the plugin
 
 # Usage
-Either add a "confetti" or "sparkles" class for an element, or make use of all features of  the [party module](https://party.js.org/docs)!
+Either add a "confetti" or "sparkles" class for an element, or make use of all features of the [party module](https://party.js.org/docs)!
+Also, you'd better to not spam particles, because it can cause performance issues.
 
 # Examples
 ## Simple confetti button
