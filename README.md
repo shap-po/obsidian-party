@@ -23,6 +23,10 @@ Search for the "Obsidian Party" in the Obsidian plugin list.
 3. Extract the contents of the zip file to obsidian plugins folder
 4. You should have a folder named "obsidian-party", containing "main.js" and "manifest.json" files
 5. Restart Obsidian and enable the plugin in the plugin list
+## Manual build
+1. Clone the repository
+2. Run `npm i` or `yarn` to install dependencies
+3. `npm run dev` to build the plugin
 
 # Usage
 Either add a "confetti" or "sparkles" class for an element, or make use of all features of  the [party module](https://party.js.org/docs)!
