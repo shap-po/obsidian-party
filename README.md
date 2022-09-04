@@ -13,6 +13,7 @@ An implementation of the [party.js](https://party.js.org/) library for the [Obsi
 
 # Features
 + Create confetti and sparkles effects
+<img src="images/confetti.gif" width="48%"/> <img src="images/sparkles.gif" width="48%"/>
 + What else do you want?
 
 # Installation
@@ -29,7 +30,7 @@ Search for the "Obsidian Party" in the Obsidian plugin list.
 3. `npm run dev` to build the plugin
 
 # Usage
-Either add a "confetti" or "sparkles" class for an element, or make use of all features of the [party module](https://party.js.org/docs)!
+Either add a `confetti` or `sparkles` class for an element, or make use of all features of the [party module](https://party.js.org/docs)!
 Also, you'd better to not spam particles, because it can cause performance issues.
 
 # Examples
