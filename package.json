@@ -1,7 +1,7 @@
 {
 	"name": "obsidian-party",
-	"version": "1.0.0",
-	"description": "An implementation of party.js for Obsidian",
+	"version": "1.0.1",
+	"description": "An implementation of party.js for Obsidian. Create confetti & sparkles in your notes!",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",

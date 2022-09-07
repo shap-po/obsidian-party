@@ -8,7 +8,7 @@
     <a href="https://party.js.org/docs">Documentation</a>
 </p>
 
-# Obsidian Party
+# Party🎉
 An implementation of the [party.js](https://party.js.org/) library for the [Obsidian](https://obsidian.md).
 
 # Features
@@ -17,7 +17,7 @@ An implementation of the [party.js](https://party.js.org/) library for the [Obsi
 + What else do you want?
 
 # Installation
-Search for the "Obsidian Party" in the Obsidian plugin list.
+Search for the "Party🎉" in the Obsidian plugin list.
 ## Manual Installation
 1. Go to [Releases](https://github.com/shap-po/obsidian-party/releases) and download the latest release
 2. Enable plugins in the Obsidian settings
