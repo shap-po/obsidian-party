@@ -7,13 +7,11 @@ export default class ObsidianParty extends Plugin {
 		window.party = party;
 
 		// register mouse click event
-		this.registerDomEvent(document, "click", (evt: MouseEvent) => {
-			// check if the event target has confetti or sparkles class
-			if (evt.target instanceof HTMLElement) {
-				if (evt.target.classList.contains("confetti"))
-					party.confetti(evt.target);
-				if (evt.target.classList.contains("sparkles"))
-					party.sparkles(evt.target);
+		this.registerDomEvent(window, "click", (evt: MouseEvent) => {
+			const target = evt.target as HTMLElement;
+			if (target.instanceOf(HTMLElement)) {
+				if (target.hasClass("confetti")) party.confetti(target);
+				if (target.hasClass("sparkles")) party.sparkles(target);
 			}
 		});
 	}
