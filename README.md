@@ -13,7 +13,8 @@ An implementation of the [party.js](https://party.js.org/) library for the [Obsi
 
 # Features
 + Create confetti and sparkles effects
-<img src="images/confetti.gif" width="48%"/> <img src="images/sparkles.gif" width="48%"/>
+
+<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/confetti.gif" width="40%"/> <img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/sparkles.gif" width="40%"/>
 + What else do you want?
 
 # Installation
