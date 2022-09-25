@@ -1,9 +1,9 @@
-import {App, Plugin, PluginSettingTab, Setting} from "obsidian";
+import { App, Plugin, PluginSettingTab, Setting } from "obsidian";
 import party from "party-js";
 
-type Effect = "none" | "confetti" | "sparkles"
+type Effect = "none" | "confetti" | "sparkles";
 interface ObsidianPartySettings {
-	taskEffect: Effect
+	taskEffect: Effect;
 }
 
 class ObsidianPartySettingsTab extends PluginSettingTab {
@@ -15,45 +15,55 @@ class ObsidianPartySettingsTab extends PluginSettingTab {
 	}
 
 	display(): void {
-		const {containerEl} = this;
+		const { containerEl } = this;
 
 		containerEl.empty();
-		containerEl.createEl("h2", {text: "Settings for Obsidian party plugin"});
+		containerEl.createEl("h2", {
+			text: "Settings for Obsidian party plugin",
+		});
 
 		new Setting(this.containerEl)
 			.setName("Task effect")
-			.setDesc("Effect that will be viewed when clicking on a task")
-			.addDropdown(dropdown => dropdown
-				.addOptions({none: "None", confetti: "Confetti", sparkles: "Sparkles"})
-				.setValue(this.plugin.settings.taskEffect)
-				.onChange(newValue => {
-					this.plugin.settings.taskEffect = newValue as Effect;
-					this.plugin.saveSettings();
-				})
-
+			.setDesc("Effect that will be viewed when checking off a task")
+			.addDropdown((dropdown) =>
+				dropdown
+					.addOptions({
+						none: "None",
+						confetti: "Confetti",
+						sparkles: "Sparkles",
+					})
+					.setValue(this.plugin.settings.taskEffect)
+					.onChange((newValue) => {
+						this.plugin.settings.taskEffect = newValue as Effect;
+						this.plugin.saveSettings();
+					})
 			);
 	}
 }
 
-const DEFAULT_SETTINGS: ObsidianPartySettings = {taskEffect: "none"}
+const DEFAULT_SETTINGS: ObsidianPartySettings = { taskEffect: "none" };
 
 export default class ObsidianParty extends Plugin {
-	settings: ObsidianPartySettings = DEFAULT_SETTINGS
+	settings: ObsidianPartySettings = DEFAULT_SETTINGS;
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
+		this.settings = Object.assign(
+			{},
+			DEFAULT_SETTINGS,
+			await this.loadData()
+		);
 	}
 
 	async saveSettings() {
-		await this.saveData(this.settings)
+		await this.saveData(this.settings);
 	}
 
 	async onload() {
 		// load setting values
-		await this.loadSettings()
+		await this.loadSettings();
 
 		// register settings tab
-		this.addSettingTab(new ObsidianPartySettingsTab(this.app, this))
+		this.addSettingTab(new ObsidianPartySettingsTab(this.app, this));
 
 		// register party
 		window.party = party;
@@ -62,7 +72,14 @@ export default class ObsidianParty extends Plugin {
 		this.registerDomEvent(window, "click", (evt: MouseEvent) => {
 			const target = evt.target as HTMLElement;
 			if (target.instanceOf(HTMLElement)) {
-				if (target.hasClass("task-list-item-checkbox")) this.taskEffect(target);
+				if (
+					target.hasClass("task-list-item-checkbox") &&
+					(target.getAttribute("data-task") === " " || // task was unchecked
+						(!target.hasAttribute("data-task") && // task is embedded
+							!target.hasAttribute("checked"))) // embedded task was unchecked
+				)
+					this.taskEffect(target);
+
 				if (target.hasClass("confetti")) party.confetti(target);
 				if (target.hasClass("sparkles")) party.sparkles(target);
 			}
@@ -70,13 +87,13 @@ export default class ObsidianParty extends Plugin {
 	}
 
 	// Exposed as public to allow calling from other plugins
-	public taskEffect(target: HTMLElement) {
+	public taskEffect(target: party.sources.DynamicSourceType) {
 		switch (this.settings.taskEffect) {
 			case "confetti":
 				party.confetti(target);
-				return
+				return;
 			case "sparkles":
-				party.sparkles(target)
+				party.sparkles(target);
 				return;
 		}
 	}
