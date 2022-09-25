@@ -15,6 +15,8 @@ An implementation of the [party.js](https://party.js.org/) library for the [Obsi
 + Create confetti and sparkles effects
 
 <img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/confetti.gif" width="40%"/> <img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/sparkles.gif" width="40%"/>
+
++ Add effects to task checkbox click
 + What else do you want?
 
 # Installation
