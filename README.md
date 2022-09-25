@@ -17,6 +17,9 @@ An implementation of the [party.js](https://party.js.org/) library for the [Obsi
 <img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/confetti.gif" width="40%"/> <img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/sparkles.gif" width="40%"/>
 
 + Add effects to task checkbox click
+
+<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/checkbox.gif" width="40%"/>
+
 + What else do you want?
 
 # Installation
@@ -64,3 +67,7 @@ dv.table(["File", "Button"],
 )
 ```
 ````
+## Checkbox effects
+1. Open plugin settings
+2. Select effect type
+3. Enjoy!
