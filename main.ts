@@ -78,10 +78,10 @@ export default class ObsidianParty extends Plugin {
 						(!target.hasAttribute("data-task") && // task is embedded
 							!target.hasAttribute("checked"))) // embedded task was unchecked
 				)
-					this.taskEffect(target);
+					this.taskEffect(evt);
 
-				if (target.hasClass("confetti")) party.confetti(target);
-				if (target.hasClass("sparkles")) party.sparkles(target);
+				if (target.hasClass("confetti")) party.confetti(evt);
+				if (target.hasClass("sparkles")) party.sparkles(evt);
 			}
 		});
 	}

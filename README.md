@@ -48,13 +48,13 @@ Also, you'd better to not spam particles, because it can cause performance issue
 ````
 ```dataviewjs
 const buttonMaker = (text) => {
-    const btn = this.container.createEl('button', {"text": text});
-    btn.addEventListener('click', async (evt) => {
-      evt.preventDefault();
-	    party.confetti(btn); // <---- creating confetti
-	    party.sparkles(btn); // <---- creating sparkles
-    });
-    return btn;
+  const btn = this.container.createEl('button', {"text": text});
+  btn.addEventListener('click', async (evt) => {
+    evt.preventDefault();
+    party.confetti(evt); // <---- creating confetti
+    party.sparkles(evt); // <---- creating sparkles
+  });
+  return btn;
 }
 
 dv.table(["File", "Button"],
