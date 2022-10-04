@@ -45,6 +45,7 @@ const DEFAULT_SETTINGS: ObsidianPartySettings = { taskEffect: "none" };
 
 export default class ObsidianParty extends Plugin {
 	settings: ObsidianPartySettings = DEFAULT_SETTINGS;
+	observer: MutationObserver;
 
 	async loadSettings() {
 		this.settings = Object.assign(
@@ -56,6 +57,7 @@ export default class ObsidianParty extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+		this.setupObserver(); // update observer
 	}
 
 	async onload() {
@@ -72,17 +74,35 @@ export default class ObsidianParty extends Plugin {
 		this.registerDomEvent(window, "click", (evt: MouseEvent) => {
 			const target = evt.target as HTMLElement;
 			if (target.instanceOf(HTMLElement)) {
-				if (
-					target.hasClass("task-list-item-checkbox") &&
-					(target.getAttribute("data-task") === " " || // task was unchecked
-						(!target.hasAttribute("data-task") && // task is embedded
-							!target.hasAttribute("checked"))) // embedded task was unchecked
-				)
-					this.taskEffect(evt);
-
 				if (target.hasClass("confetti")) party.confetti(evt);
 				if (target.hasClass("sparkles")) party.sparkles(evt);
 			}
+		});
+		this.setupObserver();
+	}
+
+	setupObserver() {
+		// observer will only be active if taskEffect is not "none"
+		if (this.settings.taskEffect === "none") {
+			if (this.observer) this.observer.disconnect();
+			return;
+		} else if (this.observer) return;
+		// obsidian-tasks plugin blocks onclick events on checkboxes, so we need to add them manually for each checkbox
+		this.observer = new MutationObserver((mutations: MutationRecord[]) => {
+			// add onclick event to each checkbox
+			document
+				.querySelectorAll("input[type=checkbox]:not(.party-patched)")
+				.forEach((checkbox: HTMLInputElement) => {
+					checkbox.addEventListener("click", (evt: MouseEvent) => {
+						if (checkbox.checked) this.taskEffect(evt);
+					});
+					checkbox.classList.add("party-patched");
+				});
+		});
+		// observe any changes to document structure
+		this.observer.observe(document.body, {
+			childList: true,
+			subtree: true,
 		});
 	}
 
@@ -101,5 +121,6 @@ export default class ObsidianParty extends Plugin {
 	onunload() {
 		// unregister party
 		delete window.party;
+		if (this.observer) this.observer.disconnect();
 	}
 }
