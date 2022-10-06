@@ -91,7 +91,9 @@ export default class ObsidianParty extends Plugin {
 		this.observer = new MutationObserver((mutations: MutationRecord[]) => {
 			// add onclick event to each checkbox
 			document
-				.querySelectorAll("input[type=checkbox]:not(.party-patched)")
+				.querySelectorAll(
+					".view-content input[type=checkbox]:not(.party-patched)"
+				)
 				.forEach((checkbox: HTMLInputElement) => {
 					checkbox.addEventListener("click", (evt: MouseEvent) => {
 						if (checkbox.checked) this.taskEffect(evt);
