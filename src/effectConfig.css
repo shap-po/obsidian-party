@@ -1,0 +1,41 @@
+.party-palette {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: right;
+}
+.party-palette .pickr {
+	padding: 2px;
+	height: 30px;
+	width: 30px;
+}
+.party-palette :last-child button::after {
+	background: none;
+	content: "+";
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.party-palette :last-child button::before {
+	display: none;
+}
+.party-palette :last-child button {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
+
+.party-shape-empty {
+	opacity: 0;
+	width: 0;
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: 0;
+	margin-right: 0;
+}
+.party-palette .pcr-button::after {
+	transition: none !important;
+}
+
+.party-shapes .setting-item-control {
+	flex-wrap: wrap;
+}

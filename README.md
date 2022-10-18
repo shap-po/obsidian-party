@@ -14,13 +14,19 @@ An implementation of the [party.js](https://party.js.org/) library for the [Obsi
 # Features
 + Create confetti and sparkles effects
 
-<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/confetti.gif" width="40%"/> <img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/sparkles.gif" width="40%"/>
+<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/confetti.gif" width="40%"/>
+<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/sparkles.gif" width="40%"/>
 
-+ Add effects to task checkbox click
++ Add effects to checkboxes (also supports dataview tasks and a tasks plugin)
 
 <img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/checkbox.gif" width="40%"/>
+<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/snowflakes.gif" width="40%"/>
 
-+ What else do you want?
++ A lot of customization options
+
+<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/customization.png" width="40%"/>
+
++ What else do you want? (I'm open to suggestions!)
 
 # Installation
 Search for the "Party🎉" in the Obsidian plugin list.
@@ -40,10 +46,16 @@ Either add a `confetti` or `sparkles` class for an element, or make use of all f
 Also, you'd better to not spam particles, because it can cause performance issues.
 
 # Examples
+## Checkbox effects
+1. Open plugin settings
+2. Select effect type
+3. Enjoy!
 ## Simple confetti button
 ```html
 <button class="confetti">Click me!</button>
 ```
+<button class="confetti">Click me!</button>
+(This is just a showcase of a button, it actually doesn't do anything)
 ## DataView JS support 
 ````
 ```dataviewjs
@@ -67,7 +79,3 @@ dv.table(["File", "Button"],
 )
 ```
 ````
-## Checkbox effects
-1. Open plugin settings
-2. Select effect type
-3. Enjoy!

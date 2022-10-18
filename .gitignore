@@ -11,6 +11,8 @@ node_modules
 # Don't include the compiled main.js file in the repo.
 # They should be uploaded to GitHub releases instead.
 main.js
+# Don't incluce style.css as well, as it is generated from other files.
+styles.css
 
 # Exclude sourcemaps
 *.map
