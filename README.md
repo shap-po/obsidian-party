@@ -14,13 +14,11 @@ An implementation of the [party.js](https://party.js.org/) library for the [Obsi
 # Features
 + Create confetti and sparkles effects
 
-<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/confetti.gif" width="40%"/>
-<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/sparkles.gif" width="40%"/>
+<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/confetti.gif" width="40%"/> <img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/sparkles.gif" width="40%"/>
 
 + Add effects to checkboxes (also supports dataview tasks and a tasks plugin)
 
-<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/checkbox.gif" width="40%"/>
-<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/snowflakes.gif" width="40%"/>
+<img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/checkbox.gif" width="40%"/> <img src="https://raw.githubusercontent.com/shap-po/obsidian-party/master/images/snowflakes.gif" width="40%"/>
 
 + A lot of customization options
 
