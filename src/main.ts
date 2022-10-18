@@ -68,7 +68,6 @@ export default class ObsidianParty extends Plugin {
 		this.configs = {}; // reset configs
 	}
 	async loadSettings() {
-		console.log(DEFAULT_SETTINGS);
 		this.settings = Object.assign(
 			{},
 			DEFAULT_SETTINGS,

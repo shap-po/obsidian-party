@@ -19,6 +19,7 @@ const TARGETS = ["mouse", "element", "line", "note", "app"];
 export interface EffectConfiguration {
 	effect: Effect;
 	target: typeof TARGETS[number];
+
 	count: Range;
 	speed: Range;
 	size: Range;
