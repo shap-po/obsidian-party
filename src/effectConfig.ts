@@ -1,7 +1,6 @@
 import Pickr from "@simonwep/pickr";
 import "@simonwep/pickr/dist/themes/nano.min.css"; // 'nano' theme
 import { Modal, Setting } from "obsidian";
-import party from "party-js";
 import ObsidianParty from "./main";
 import {
 	Effect,
@@ -173,22 +172,24 @@ export class EffectConfigurationModal extends Modal {
 		const enabledShapes = new Setting(shapes).setName("Enabled");
 		const disabledShapes = new Setting(shapes).setName("Disabled");
 
-		Object.entries(party.resolvableShapes).forEach(([shape, image]) => {
-			(this.option.shapes.includes(shape)
-				? enabledShapes
-				: disabledShapes
-			).addButton(
-				(button) =>
-					(button.onClick(() => {
-						this.option.shapes.includes(shape)
-							? this.option.shapes.remove(shape)
-							: this.option.shapes.push(shape);
+		Object.entries(this.plugin.party.resolvableShapes).forEach(
+			([shape, image]) => {
+				(this.option.shapes.includes(shape)
+					? enabledShapes
+					: disabledShapes
+				).addButton(
+					(button) =>
+						(button.onClick(() => {
+							this.option.shapes.includes(shape)
+								? this.option.shapes.remove(shape)
+								: this.option.shapes.push(shape);
 
-						this.plugin.saveSettings();
-						this.display();
-					}).buttonEl.innerHTML = image) // set svg image as button content
-			);
-		});
+							this.plugin.saveSettings();
+							this.display();
+						}).buttonEl.innerHTML = image) // set svg image as button content
+				);
+			}
+		);
 		// add invisible buttons, so when row is empty, it still has height
 		[enabledShapes, disabledShapes].forEach((setting) =>
 			setting.addButton((button) =>

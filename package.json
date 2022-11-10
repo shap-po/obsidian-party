@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-party",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "An implementation of party.js for Obsidian. Create confetti & sparkles in your notes!",
 	"main": "main.js",
 	"scripts": {

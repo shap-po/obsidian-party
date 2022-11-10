@@ -1,0 +1,5 @@
+/* #party-js-container blocks drag&drop interactions with windows header (issue#4)[https://github.com/shap-po/obsidian-party/issues/4] */
+#party-js-container,
+#party-js-container * {
+	-webkit-app-region: inherit;
+}

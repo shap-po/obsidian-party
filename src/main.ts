@@ -1,5 +1,4 @@
 import { Plugin } from "obsidian";
-import party from "party-js";
 import { EffectConfiguration, RANGE_CONFIGS } from "./effectConfig";
 import {
 	ObsidianPartySettings,
@@ -8,6 +7,12 @@ import {
 	SettingsOfType,
 	Effect,
 } from "./settings";
+import "./partyFixes.css";
+
+//import "party-js" for typehints
+import Party from "party-js";
+// actual party import
+const party: typeof Party = window.party || require("party-js");
 
 declare module "obsidian" {
 	interface App {
@@ -19,24 +24,29 @@ declare module "obsidian" {
 // allow registering party as a global
 declare global {
 	interface Window {
-		party?: typeof party;
+		party?: typeof Party;
 	}
 }
+type PartyConfiguration = Partial<
+	Party.ConfettiConfiguration & Party.SparkleConfiguration
+>;
 
 export default class ObsidianParty extends Plugin {
 	settings: ObsidianPartySettings = DEFAULT_SETTINGS;
 	observer?: MutationObserver;
 	configs: Partial<{
 		[P in keyof ObsidianPartySettings]: ObsidianPartySettings[P] extends EffectConfiguration
-			? party.ConfettiConfiguration & party.SparkleConfiguration
+			? PartyConfiguration
 			: never;
 	}> = {};
+	party: typeof Party;
 
 	async onload() {
 		await this.loadSettings();
 
 		// register party
 		window.party = party;
+		this.party = party;
 
 		this.registerDomEvent(window, "click", (evt: MouseEvent) => {
 			const target = evt.target as HTMLElement;
@@ -56,8 +66,6 @@ export default class ObsidianParty extends Plugin {
 		this.addSettingTab(new ObsidianPartySettingsTab(this.app, this));
 	}
 	onunload() {
-		// unregister party
-		delete window.party;
 		this.observer?.disconnect();
 		delete this.observer;
 	}
@@ -166,7 +174,7 @@ export default class ObsidianParty extends Plugin {
 		const effectConfig = this.getConfig(optionName);
 
 		// get target element
-		let target: party.sources.DynamicSourceType;
+		let target: Party.sources.DynamicSourceType;
 		let checkbox: HTMLElement | undefined = evt.target as HTMLElement;
 		if (!checkbox?.instanceOf(HTMLElement)) checkbox = undefined;
 		switch (this.settings[optionName].target) {
@@ -215,8 +223,7 @@ export default class ObsidianParty extends Plugin {
 	}
 
 	convertConfig(config: EffectConfiguration) {
-		const cfg = {} as unknown as party.ConfettiConfiguration &
-			party.SparkleConfiguration;
+		const cfg: PartyConfiguration = {};
 		RANGE_CONFIGS.forEach((key) => {
 			if (config[key][0] && config[key][1])
 				cfg[key] = party.variation.range(
