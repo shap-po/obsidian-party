@@ -1,15 +1,18 @@
 import Pickr from "@simonwep/pickr";
 import "@simonwep/pickr/dist/themes/nano.min.css"; // 'nano' theme
-import { Modal, Setting } from "obsidian";
+import { Modal, Notice, Setting } from "obsidian";
 import ObsidianParty from "./main";
 import {
+	DEFAULT_CONFIGURATION,
 	Effect,
+	EffectConfig,
 	EFFECTS,
 	ObsidianPartySettingsTab,
-	SettingsOfType,
 } from "./settings";
-import { capitalize } from "./utils";
-import "./effectConfig.css";
+import { applyColor, capitalize, isValidHTML } from "./utils";
+import ConfirmationModal from "./confirmationModal";
+
+import "./styles/effectConfig.css";
 
 export type Range = [(number | null)?, (number | null)?];
 
@@ -22,17 +25,15 @@ export interface EffectConfiguration {
 	count: Range;
 	speed: Range;
 	size: Range;
-	// TODO: rotation;
 
 	spread: Range;
 	lifetime: Range;
 
 	colors: string[];
 	shapes: Array<string>;
-	//TODO: custom shapes
 }
 
-export const RANGE_DEFAULTS: {
+const RANGE_DEFAULTS: {
 	[T in Effect]: {
 		[Key in keyof EffectConfiguration]?: EffectConfiguration[Key];
 	};
@@ -63,15 +64,17 @@ export const RANGE_CONFIGS = [
 export class EffectConfigurationModal extends Modal {
 	plugin: ObsidianParty;
 	option: EffectConfiguration;
+	optionName: EffectConfig;
 	settingsTab: ObsidianPartySettingsTab;
 	constructor(
 		plugin: ObsidianParty,
-		optionName: SettingsOfType<EffectConfiguration>,
+		optionName: EffectConfig,
 		settingsTab: ObsidianPartySettingsTab
 	) {
 		super(plugin.app);
 		this.plugin = plugin;
-		this.option = this.plugin.settings[optionName];
+		this.option = this.plugin.settings.effectConfigs[optionName];
+		this.optionName = optionName;
 		this.settingsTab = settingsTab;
 	}
 	onOpen() {
@@ -81,9 +84,81 @@ export class EffectConfigurationModal extends Modal {
 	display() {
 		const { contentEl } = this;
 		contentEl.empty();
-		contentEl.createEl("h2", {
-			text: "Effect configuration",
-		});
+
+		new Setting(contentEl)
+			.addExtraButton((button) => {
+				button
+					.setIcon("reset")
+					.setTooltip("Reset to default")
+					.onClick(() => {
+						new ConfirmationModal(
+							this.plugin.app,
+							"Reset to default?",
+							() => {
+								const option = structuredClone(
+									DEFAULT_CONFIGURATION
+								);
+								this.option = option;
+								this.plugin.settings.effectConfigs[
+									this.optionName
+								] = option;
+								this.plugin.saveSettings();
+								this.display();
+								this.settingsTab.display();
+								new Notice("Reset to default");
+							}
+						);
+					});
+			})
+
+			.addExtraButton((button) =>
+				button
+					.setIcon("copy")
+					.setTooltip("Copy")
+					.onClick(() => {
+						navigator.clipboard.writeText(
+							JSON.stringify(this.option, null, 2)
+						);
+						new Notice("Copied config to clipboard");
+					})
+			)
+			.addExtraButton((button) =>
+				button
+					.setIcon("paste")
+					.setTooltip("Paste")
+					.onClick(() => {
+						navigator.clipboard.readText().then((text) => {
+							try {
+								const option = JSON.parse(text);
+								// check for missing keys
+								Object.keys(DEFAULT_CONFIGURATION).forEach(
+									(key) => {
+										if (!(key in option)) throw new Error();
+									}
+								);
+								new ConfirmationModal(
+									this.plugin.app,
+									"Confirm replacing config?",
+									() => {
+										this.option = option;
+										this.plugin.settings.effectConfigs[
+											this.optionName
+										] = option;
+										this.plugin.saveSettings();
+										this.display();
+										this.settingsTab.display();
+										new Notice(
+											"Pasted config from clipboard"
+										);
+									}
+								);
+							} catch (e) {
+								new Notice("Invalid config");
+							}
+						});
+					})
+			)
+			.infoEl.createEl("h2", { text: "Effect configuration" });
 
 		contentEl.createEl("p", {
 			text: "All settings here are optional. If you leave a setting blank, it will use the default value.",
@@ -173,20 +248,28 @@ export class EffectConfigurationModal extends Modal {
 		const disabledShapes = new Setting(shapes).setName("Disabled");
 
 		Object.entries(this.plugin.party.resolvableShapes).forEach(
-			([shape, image]) => {
-				(this.option.shapes.includes(shape)
+			([name, shape]) => {
+				if (!isValidHTML(shape)) return; // skip invalid shapes
+				(this.option.shapes.includes(name)
 					? enabledShapes
 					: disabledShapes
 				).addButton(
-					(button) =>
-						(button.onClick(() => {
-							this.option.shapes.includes(shape)
-								? this.option.shapes.remove(shape)
-								: this.option.shapes.push(shape);
+					(button) => {
+						button
+							.onClick(() => {
+								this.option.shapes.includes(name)
+									? this.option.shapes.remove(name)
+									: this.option.shapes.push(name);
 
-							this.plugin.saveSettings();
-							this.display();
-						}).buttonEl.innerHTML = image) // set svg image as button content
+								this.plugin.saveSettings();
+								this.display();
+							})
+							.setTooltip(name);
+						button.buttonEl.innerHTML = shape;
+						const el = button.buttonEl.firstChild as HTMLElement;
+						if (!el) return;
+						applyColor(el, "var(--text-normal)");
+					} // set svg image as button content
 				);
 			}
 		);
@@ -204,6 +287,14 @@ export class EffectConfigurationModal extends Modal {
 		for (let i = 0; i < this.option.colors.length + 1; i++) {
 			this.addPicker(palette, i);
 		}
+
+		new Setting(contentEl).addButton((button) =>
+			button
+				.setButtonText("Test 🎉")
+				.onClick((evt) =>
+					this.plugin.triggerEffect(evt, this.optionName)
+				)
+		);
 	}
 
 	addPicker(container: HTMLDivElement, index: number) {

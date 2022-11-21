@@ -1,0 +1,25 @@
+.party-shapes-modal {
+	width: auto;
+	--party-shape-normal-color: var(--text-normal);
+	--party-shape-resized-color: var(--color-orange);
+}
+.party-shapes-modal .setting-item-info {
+	flex: none;
+}
+.party-shapes-modal .setting-item-name {
+	min-width: var(--max-size);
+	display: flex;
+	justify-content: center;
+}
+.party-shapes-modal textarea {
+	width: 100%;
+	min-height: calc(var(--input-height) * 2.1);
+	height: calc(var(--input-height) * 2.1);
+	resize: vertical;
+}
+.party-shape-resized * {
+	max-width: var(--max-size);
+	max-height: var(--max-size);
+	overflow: hidden;
+	display: inline-flex;
+}

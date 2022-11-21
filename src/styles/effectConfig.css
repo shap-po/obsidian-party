@@ -23,7 +23,14 @@
 	background: var(--interactive-accent);
 	color: var(--text-on-accent);
 }
-
+.party-palette :last-child {
+	margin-bottom: 4px;
+}
+.party-shapes .setting-item-control button * {
+	max-width: 16px;
+	max-height: 16px;
+	overflow: hidden;
+}
 .party-shape-empty {
 	opacity: 0;
 	width: 0;
